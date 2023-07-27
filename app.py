@@ -195,7 +195,7 @@ def download():
         buffer = BytesIO()
         writer = pd.ExcelWriter(buffer, engine='openpyxl')
         df.to_excel(writer, index=False, sheet_name='Attendance')
-        writer.save()
+        writer.close()
         buffer.seek(0)
 
         # Mengubah buffer ke respons file

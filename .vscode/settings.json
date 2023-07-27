@@ -1,0 +1,35 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Enabled",
+                "ssl": {
+                    "ca": "C:\\Users\\nanda\\Downloads\\ca-certificate.crt"
+                }
+            },
+            "previewLimit": 50,
+            "server": "lkmmtd-do-user-14062046-0.b.db.ondigitalocean.com",
+            "port": 25060,
+            "driver": "MySQL",
+            "name": "database_cluster",
+            "database": "defaultdb",
+            "username": "doadmin",
+            "askForPassword": true
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "128.199.164.206",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "db_flask",
+            "database": "flask",
+            "username": "dabonk",
+            "askForPassword": true
+        }
+    ]
+}
