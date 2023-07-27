@@ -72,19 +72,54 @@ def attendance():
     # Jika pengguna belum terautentikasi, arahkan kembali ke halaman login
     return redirect('/')
 
-@app.route('/dashboard')
+# @app.route('/dashboard')
+# def dashboard():
+#     if 'username' in session and session['role'] == 'admin':
+#         # Mendapatkan tanggal hari ini
+#         current_date = date.today()
+
+#         # Mengambil data pengguna yang login pada hari tersebut dari tabel attendance
+#         cur = mysql.cursor()
+#         cur.execute("SELECT username, timestamp, verified FROM attendance WHERE DATE(timestamp) = %s", (current_date,))
+#         login_data = cur.fetchall()
+#         cur.close()
+
+#         return render_template('dashboard.html', login_data=login_data)
+#     else:
+#         return redirect('/')
+
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     if 'username' in session and session['role'] == 'admin':
-        # Mendapatkan tanggal hari ini
-        current_date = date.today()
+        if request.method == 'POST':
+            # Get the selected date from the form
+            date_str = request.form['date']
+            try:
+                selected_date = datetime.strptime(date_str, '%Y-%m-%d').date()
+            except ValueError:
+                error = 'Invalid date format. Please use YYYY-MM-DD format.'
+                return render_template('dashboard.html', error=error)
 
-        # Mengambil data pengguna yang login pada hari tersebut dari tabel attendance
-        cur = mysql.cursor()
-        cur.execute("SELECT username, timestamp, verified FROM attendance WHERE DATE(timestamp) = %s", (current_date,))
-        login_data = cur.fetchall()
-        cur.close()
+            # Get data for the selected date from the attendance table
+            cur = mysql.cursor()
+            cur.execute("SELECT username, timestamp, verified FROM attendance WHERE DATE(timestamp) = %s", (selected_date,))
+            login_data = cur.fetchall()
+            cur.close()
 
-        return render_template('dashboard.html', login_data=login_data)
+            return render_template('dashboard.html', login_data=login_data)
+
+        # If the request method is GET or no date is selected, display data for the current date
+        else:
+            # Get today's date
+            current_date = date.today()
+
+            # Get data for today from the attendance table
+            cur = mysql.cursor()
+            cur.execute("SELECT username, timestamp, verified FROM attendance WHERE DATE(timestamp) = %s", (current_date,))
+            login_data = cur.fetchall()
+            cur.close()
+
+            return render_template('dashboard.html', login_data=login_data)
     else:
         return redirect('/')
     
@@ -205,4 +240,4 @@ def add_user():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
