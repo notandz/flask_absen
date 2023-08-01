@@ -13,10 +13,11 @@ app = Flask(__name__)
 app.secret_key = 'papakilo1945randomwiuw'  # Kunci rahasia untuk sesi
 
 db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '',
-    'database': 'absensiflask'
+    'host': 'flask-lkmm-do-user-14062046-0.b.db.ondigitalocean.com',
+    'user': 'doadmin',
+    'password': 'AVNS_bfWf2cNmhaL9rTjFU0D',
+    'database': 'defaultdb',
+    'port': 25060
 }
 
 mysql = mysql.connector.connect(**db_config)
